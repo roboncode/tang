@@ -1,6 +1,1 @@
-/**
- * Export lib/tang
- *
- */
-
-module.exports = require('./lib/');
+module.exports = require('./lib/')
