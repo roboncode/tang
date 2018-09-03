@@ -1,0 +1,12 @@
+.DS_Store
+.vscode/
+.idea/
+docker/
+docs/
+examples/
+node_modules/
+test/
+tools/
+wallaby.js
+.travis.yml
+*.log
