@@ -1,12 +1,17 @@
 .DS_Store
+.nyc_output/
 .vscode/
 .idea/
+coverage/
 docker/
 docs/
 examples/
 node_modules/
 test/
+tmp/
 tools/
 wallaby.js
+Gemfile
+.publish-docs.sh
 .travis.yml
 *.log
