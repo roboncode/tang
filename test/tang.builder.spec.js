@@ -11,8 +11,7 @@ class Model {
   }
 }
 
-class Bogus {
-}
+class Bogus {}
 
 describe('tang builder', function() {
   describe('create two "default" singletons', function() {
@@ -60,21 +59,27 @@ describe('tang builder', function() {
     })
   })
 
-  describe('toObject', function() {
-    it('should invoke Model.toObject', async function() {
-      let builder = Builder.getInstance()
-        .data({ name: 'John Smith' })
-        .convertTo(Bogus)
-        .toObject()
-      let result = await builder.build()
+  describe('toObject with Bogus model', function() {
+    it('should throw an error', async function() {
+      let result
+      try {
+        let builder = Builder.getInstance()
+          .data({ name: 'John Smith' })
+          .convertTo(Bogus)
+          .toObject()
+        await builder.build()
+      } catch (e) {
+        result = e
+      }
       expect(result).to.be.an('error')
     })
   })
 
   describe('inspect', function() {
-    it('should inspect data\'s current state', async function() {
+    it("should inspect data's current state", async function() {
       let builder = Builder.getInstance()
-      builder.data({ name: 'John Smith' })
+      builder
+        .data({ name: 'John Smith' })
         .convertTo(Model)
         .toObject()
         .inspect()
@@ -84,14 +89,20 @@ describe('tang builder', function() {
   })
 
   describe('inspect', function() {
-    it('should inspect data\'s current state', async function() {
+    it("should inspect data's current state", async function() {
       let builder = Builder.getInstance()
       let inspectCalled = false
-      builder.addMethod('inspect', function (target, index, items, note = 'Inspect') {
+      builder.addMethod('inspect', function(
+        target,
+        index,
+        items,
+        note = 'Inspect'
+      ) {
         inspectCalled = true
         return target
       })
-      builder.data({ name: 'John Smith' })
+      builder
+        .data({ name: 'John Smith' })
         .convertTo(Model)
         .toObject()
         .inspect()
@@ -104,7 +115,8 @@ describe('tang builder', function() {
     it('should call intercept', async function() {
       let builder = Builder.getInstance()
       let interceptCalled = false
-      builder.data({ name: 'John Smith' })
+      builder
+        .data({ name: 'John Smith' })
         .convertTo(Model)
         .toObject()
         .intercept(function(item) {
@@ -113,20 +125,6 @@ describe('tang builder', function() {
         })
       await builder.build()
       expect(interceptCalled).to.be.true
-    })
-  })
-
-  describe('exec with handler for testing speed', function() {
-    it('should provide report for exec', async function() {
-      let builder = Builder.getInstance()
-      let execReport
-      builder.data({ name: 'John Smith' })
-        .convertTo(Model)
-        .toObject()
-      await builder.build(function(report) {
-        execReport = report
-      })
-      expect(execReport).to.be.not.be.empty
     })
   })
 })
