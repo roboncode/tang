@@ -3,6 +3,7 @@ const asyncForEach = require('../lib/helpers/asyncForEach')
 const clone = require('../lib/helpers/clone')
 const definePrivateProperty = require('../lib/helpers/definePrivateProperty')
 const difference = require('../lib/helpers/difference')
+const getRequiredPaths = require('../lib/helpers/getRequiredPaths')
 // const getObjectKeys = require('../lib/helpers/getObjectKeys')
 const jsonStringify = require('../lib/helpers/jsonStringify')
 const resolve = require('../lib/helpers/resolve')
@@ -103,6 +104,43 @@ describe('tang helpers', function() {
         name: 'John',
         gender: 'M'
       })
+    })
+  })
+
+  describe.only('getRequiredPaths', function() {
+    it('should return a list of required paths', function() {
+      let result = getRequiredPaths({
+        r0: String,
+        r1: {
+          type: String,
+          required: true
+        },
+        r2: {
+          type: String,
+          required: 'create'
+        },
+        r3: {
+          type: String,
+          required: 'update'
+        },
+        r4: {
+          r5: {
+            type: String,
+            required: true
+          },
+          r6: {
+            type: String,
+            required: 'create'
+          },
+          r7: {
+            type: String,
+            required: 'update'
+          }
+        }
+      })
+      expect(result.all.join(' ')).to.equal('r1 r2 r3 r4 r4.r5 r4.r6 r4.r7')
+      expect(result.create.join(' ')).to.equal('r1 r2 r4 r4.r5 r4.r6')
+      expect(result.update.join(' ')).to.equal('r1 r3 r4 r4.r5 r4.r7')
     })
   })
 
