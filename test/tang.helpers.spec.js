@@ -109,7 +109,7 @@ describe('tang helpers', function() {
 
   describe.only('getRequiredPaths', function() {
     it('should return a list of required paths', function() {
-      let result = getRequiredPaths({
+      let requiredPaths = getRequiredPaths({
         r0: String,
         r1: {
           type: String,
@@ -130,17 +130,21 @@ describe('tang helpers', function() {
           },
           r6: {
             type: String,
-            required: 'create'
+            required: 'create test1'
           },
           r7: {
             type: String,
-            required: 'update'
+            required: ['update', 'test2']
           }
         }
       })
-      expect(result.all.join(' ')).to.equal('r1 r2 r3 r4 r4.r5 r4.r6 r4.r7')
-      expect(result.create.join(' ')).to.equal('r1 r2 r4 r4.r5 r4.r6')
-      expect(result.update.join(' ')).to.equal('r1 r3 r4 r4.r5 r4.r7')
+
+      expect(requiredPaths.getPaths('true').join(' ')).to.equal('r1 r4 r4.r5')
+      expect(requiredPaths.getPaths('all').join(' ')).to.equal('r1 r2 r3 r4 r4.r5 r4.r6 r4.r7')
+      expect(requiredPaths.getPaths('create').join(' ')).to.equal('r1 r2 r4 r4.r5 r4.r6')
+      expect(requiredPaths.getPaths('test1').join(' ')).to.equal('r1 r4 r4.r5 r4.r6')
+      expect(requiredPaths.getPaths('update').join(' ')).to.equal('r1 r3 r4 r4.r5 r4.r7')
+      expect(requiredPaths.getPaths('test2').join(' ')).to.equal('r1 r4 r4.r5 r4.r7')
     })
   })
 

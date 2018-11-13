@@ -1,37 +1,38 @@
-const Schema = require('./lib/Schema')
-const getRequireKeys = require('./lib/helpers/getRequiredPaths')
+// const Schema = require('../lib/Schema')
+const parseRequiredPaths = require('../lib/helpers/getRequiredPaths')
 require('colors')
 
-let result = getRequireKeys({
-  name: {
-    type: String
+let result = parseRequiredPaths({
+  r0: String,
+  r1: {
+    type: String,
+    required: true
   },
-  settings: {
-    active: {
-      type: Boolean,
+  r2: {
+    type: String,
+    required: 'create'
+  },
+  r3: {
+    type: String,
+    required: 'update'
+  },
+  r4: {
+    r5: {
+      type: String,
       required: true
     },
-    locale: {
+    r6: {
       type: String,
-      default: 'en-US',
-      required: 'create|test'
+      required: 'create test1'
     },
-    a: {
-      b: {
-        c: {
-          d: {
-            required: 'update'
-          },
-          e: String
-        }
-      }
+    r7: {
+      type: String,
+      required: ['update', 'test2']
     }
   }
 })
-console.log(result)
-
+console.log(JSON.stringify(result.getScopes(), '', 3))
 return
-
 let schema = new Schema({
   name: {
     type: String,
@@ -57,9 +58,10 @@ async function main() {
       // .requiredKeys('name', 'settings.active')
       .validate({
         // name: 'rob',
-        settings: {}
+        // settings: {}
       }, {
-        required: 'update'
+        // required: 'update'
+        scope: 'create'
       })
     console.log('result #1'.green, result)
   } catch (e) {
