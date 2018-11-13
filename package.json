@@ -1,6 +1,6 @@
 {
   "name": "tangjs",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Tang is an Object Modeler built on top of Joi",
   "main": "./index.js",
   "scripts": {
