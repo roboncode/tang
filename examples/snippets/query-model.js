@@ -1,4 +1,4 @@
-const tang = require('../lib')
+const tang = require('../../lib')
 const Joi = require('joi')
 
 const QuerySchema = new tang.Schema(

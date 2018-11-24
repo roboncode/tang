@@ -1,4 +1,4 @@
-const { Model, Schema } = require('../lib')
+const { Model, Schema } = require('../../lib')
 const Joi = require('joi')
 
 async function main() {
