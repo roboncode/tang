@@ -35,13 +35,21 @@ async function main() {
   // const User = new Model({ name: 'Rob', bogus: true }, UserSchema)
   // const User = new Model({ name: 'Rob', access_token: 'abc', list: [ 'abc', 123] }, UserSchema)
   const User = new Model(
-    { username: 'roboncode', birthyear: 1972, password: 'secret', access_token: 'abc123' , list: ['a', 2, 'b']},
+    {
+      username: 'roboncode',
+      birthyear: 1972,
+      password: 'secret',
+      access_token: 'abc123',
+      list: [ 'a', 2, 'b' ]
+    },
     UserSchema
   )
   // const User = new Model({ }, UserSchema)
   // const User = new Model(null, UserSchema)
   try {
-    result = await User.validate()
+    result = await User.validate({ 
+      scope: true // this determines which items will be required
+    })
   } catch (e) {
     result = e
   }
