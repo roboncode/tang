@@ -26,17 +26,16 @@ async function main() {
     password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
     access_token: { type: [ String, Number ] },
     birthyear: { type: Number, integer: true, min: 1900, max: 2018 },
-    email: Joi.string().email({ minDomainAtoms: 2 })
+    email: Joi.string().email({ minDomainAtoms: 2 }),
+    list: [ String, Number ]
   }
-  
+
   const UserSchema = new Schema(schema)
-  UserSchema.joi = UserSchema.joi
-    .with('username', 'birthyear')
-    .without('password', 'access_token')
+  UserSchema.joi = UserSchema.joi.with('username', 'birthyear').without('password', 'access_token')
   // const User = new Model({ name: 'Rob', bogus: true }, UserSchema)
   // const User = new Model({ name: 'Rob', access_token: 'abc', list: [ 'abc', 123] }, UserSchema)
   const User = new Model(
-    { username: 'roboncode', birthyear: 1972, password: 'secret', access_token: 'abc123' },
+    { username: 'roboncode', birthyear: 1972, password: 'secret', access_token: 'abc123' , list: ['a', 2, 'b']},
     UserSchema
   )
   // const User = new Model({ }, UserSchema)

@@ -3,7 +3,7 @@ const Joi = require('joi')
 
 const QuerySchema = new tang.Schema(
   {
-    model: String,
+    model: { type: String, required: true },
     method: { type: String, default: 'find' },
     computed: Boolean,
     critiera: {},
